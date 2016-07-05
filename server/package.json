@@ -1,0 +1,21 @@
+{
+	"name": "vscode-nodemcu-languageserver",
+	"description": "Nodemcu language server",
+	"version": "0.0.1",
+	"author": "Furkan Duman",
+	"license": "MIT",
+	"engines": {
+		"node": "*"
+	},
+	"dependencies": {
+		"vscode-languageserver": "^2.2.0",
+		"luaparse": "0.2.1"
+	},
+	"devDependencies": {
+		"typescript": "^1.8.9"
+	},
+	"scripts": {
+		"compile": "installServerIntoExtension ../client ./package.json ./tsconfig.json && tsc -p .",
+		"watch": "installServerIntoExtension ../client ./package.json ./tsconfig.json && tsc --watch -p ."
+	}
+}
