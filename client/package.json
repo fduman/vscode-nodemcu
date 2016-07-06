@@ -16,7 +16,7 @@
 	},
 	"bugs": {
 		"url": "https://github.com/fduman/vscode-nodemcu/issues"
-	}
+	},
 	"engines": {
 		"vscode": "^0.10.10"
 	},
