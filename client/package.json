@@ -1,11 +1,22 @@
 {
 	"name": "vscode-nodemcu",
-	"description": "Supports NodeMCU upload over serial port, lua error detection and lua optimization",
-	"author": "Furkan Duman",
+	"displayName": "NodeMcu",
+	"description": "Supports NodeMCU upload over serial port, lua error detection and lua optimization, intellisense",
+	"author": {
+		"name": "Furkan Duman",
+		"email": "furkan0duman@gmail.com"
+	},
 	"license": "MIT",
 	"version": "1.0.1",
 	"publisher": "fduman",
 	"icon": "esp8266.gif",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/fduman/vscode-nodemcu"
+	},
+	"bugs": {
+		"url": "https://github.com/fduman/vscode-nodemcu/issues"
+	}
 	"engines": {
 		"vscode": "^0.10.10"
 	},
