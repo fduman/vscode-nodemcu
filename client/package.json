@@ -1,51 +1,51 @@
 {
-	"name": "vscode-nodemcu",
-	"displayName": "NodeMcu",
-	"description": "Supports NodeMCU upload over serial port, lua error detection and lua optimization, intellisense",
-	"author": {
-		"name": "Furkan Duman",
-		"email": "furkan0duman@gmail.com"
-	},
-	"license": "MIT",
-	"version": "1.0.1",
-	"publisher": "fduman",
-	"icon": "esp8266.gif",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/fduman/vscode-nodemcu"
-	},
-	"bugs": {
-		"url": "https://github.com/fduman/vscode-nodemcu/issues"
-	},
-	"engines": {
-		"vscode": "^0.10.10"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onLanguage:lua"
-	],
-	"main": "./out/src/extension",
-	"contributes": {
-		"commands": [
-			{
-				"command": "nodemcu.upload",
-				"title": "Upload file to NodeMCU Device"
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-		"compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
-		"postinstall": "node ./node_modules/vscode/bin/install"
-	},
-	"devDependencies": {
-		"typescript": "^1.8.9",
-		"vscode": "^0.11.0"
-	},
-	"dependencies": {
-		"vscode-languageclient": "^2.2.1",
-		"nodemcu-tool": "1.6.0"
-	}
+    "name": "vscode-nodemcu",
+    "displayName": "NodeMcu",
+    "description": "Supports NodeMCU upload over serial port, lua error detection and lua optimization, intellisense",
+    "author": {
+        "name": "Furkan Duman",
+        "email": "furkan0duman@gmail.com"
+    },
+    "license": "MIT",
+    "version": "1.0.2",
+    "publisher": "fduman",
+    "icon": "esp8266.gif",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/fduman/vscode-nodemcu"
+    },
+    "bugs": {
+        "url": "https://github.com/fduman/vscode-nodemcu/issues"
+    },
+    "engines": {
+        "vscode": "^0.10.10"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onLanguage:lua"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "nodemcu.upload",
+                "title": "Upload file to NodeMCU Device"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install"
+    },
+    "devDependencies": {
+        "typescript": "^1.8.9",
+        "vscode": "^0.11.0"
+    },
+    "dependencies": {
+        "vscode-languageclient": "^2.2.1",
+        "nodemcu-tool": "1.6.0"
+    }
 }
