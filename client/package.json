@@ -3,8 +3,9 @@
 	"description": "Supports NodeMCU upload over serial port, lua error detection and lua optimization",
 	"author": "Furkan Duman",
 	"license": "MIT",
-	"version": "0.0.1",
-	"publisher": "Furkan Duman",
+	"version": "1.0.1",
+	"publisher": "fduman",
+	"icon": "esp8266.gif",
 	"engines": {
 		"vscode": "^0.10.10"
 	},

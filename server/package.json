@@ -1,7 +1,7 @@
 {
 	"name": "vscode-nodemcu-languageserver",
 	"description": "Nodemcu language server",
-	"version": "0.0.1",
+	"version": "1.0.1",
 	"author": "Furkan Duman",
 	"license": "MIT",
 	"engines": {
