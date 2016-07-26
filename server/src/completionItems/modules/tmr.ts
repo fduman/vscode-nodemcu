@@ -2,10 +2,31 @@ import { CompletionItem, CompletionItemKind } from 'vscode-languageserver';
 
 export const tmr: CompletionItem[] = [
 	{
+		kind: CompletionItemKind.Enum,
+		label: 'ALARM_SINGLE',
+		data: 'tmr.ALARM_SINGLE',
+		detail: 'ALARM_SINGLE',
+		documentation: `A one-shot alarm (and no need to call tmr.unregister())`
+	},
+	{
+		kind: CompletionItemKind.Enum,
+		label: 'ALARM_SEMI',
+		data: 'tmr.ALARM_SEMI',
+		detail: 'ALARM_SEMI',
+		documentation: `Manually repeating alarm (call tmr.start() to restart)`
+	},
+	{
+		kind: CompletionItemKind.Enum,
+		label: 'ALARM_AUTO',
+		data: 'tmr.ALARM_AUTO',
+		detail: 'ALARM_AUTO',
+		documentation: `Automatically repeating alarm`
+	},
+	{
 		kind: CompletionItemKind.Function,
 		label: 'alarm',
 		data: 'tmr.alarm',
-		detail: '',
+		detail: 'alarm(id, interval_ms, mode)',
 		documentation: `This is a convenience function combining ['tmr.register()'](#tmrregister) and ['tmr.start()'](#tmrstart) into a single call.`
 	},
 	{

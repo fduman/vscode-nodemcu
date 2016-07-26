@@ -2,6 +2,62 @@ import { CompletionItem, CompletionItemKind } from 'vscode-languageserver';
 
 export const gpio: CompletionItem[] = [
 	{
+		kind: CompletionItemKind.Enum,
+		label: 'OUTPUT',
+		data: 'gpio.OUTPUT',
+		detail: 'OUTPUT',
+		documentation: `Output mode`
+	},
+	{
+		kind: CompletionItemKind.Enum,
+		label: 'OPENDRAIN',
+		data: 'gpio.OPENDRAIN',
+		detail: 'OPENDRAIN',
+		documentation: `Opendrain mode`
+	},
+	{
+		kind: CompletionItemKind.Enum,
+		label: 'INPUT',
+		data: 'gpio.INPUT',
+		detail: 'INPUT',
+		documentation: `Input mode`
+	},
+	{
+		kind: CompletionItemKind.Enum,
+		label: 'INT',
+		data: 'gpio.INT',
+		detail: 'INT',
+		documentation: `Interrupt mode`
+	},
+	{
+		kind: CompletionItemKind.Enum,
+		label: 'PULLUP',
+		data: 'gpio.PULLUP',
+		detail: 'PULLUP',
+		documentation: `Weak pullup resistor mode`
+	},
+	{
+		kind: CompletionItemKind.Enum,
+		label: 'FLOAT',
+		data: 'gpio.FLOAT',
+		detail: 'FLOAT',
+		documentation: `Default resistor mode`
+	},
+	{
+		kind: CompletionItemKind.Enum,
+		label: 'HIGH',
+		data: 'gpio.HIGH',
+		detail: 'HIGH',
+		documentation: `Pin high mode`
+	},
+	{
+		kind: CompletionItemKind.Enum,
+		label: 'LOW',
+		data: 'gpio.LOW',
+		detail: 'LOW',
+		documentation: `Pin low mode`
+	},
+	{
 		kind: CompletionItemKind.Function,
 		label: 'mode',
 		data: 'gpio.mode',
