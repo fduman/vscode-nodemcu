@@ -10,6 +10,8 @@ import {
 
 import { nodeMcuCompletionHandler } from './nodeMcuCompletionHandler';
 
+import { nodeMcuSignatureHelpHandler } from './nodeMcuSignatureHelpHandler';
+
 import { validateLuaDocument } from './luaDocumentLinter';
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
@@ -33,8 +35,11 @@ connection.onInitialize((params): InitializeResult => {
 			textDocumentSync: documents.syncKind,
 			// Tell the client that the server support code complete
 			completionProvider: {
-				triggerCharacters: ["."],
-				resolveProvider: true
+				triggerCharacters: [".", ":"],
+				resolveProvider: false
+			},
+			signatureHelpProvider: {
+				triggerCharacters: ["(", ","],
 			}
 		}
 	}
@@ -80,18 +85,22 @@ connection.onDidChangeWatchedFiles((change) => {
 	connection.console.log('We recevied an file change event');
 });
 
-
 // This handler provides the initial list of the completion items.
 connection.onCompletion(textDocumentPosition => { 
 	let document = documents.get(textDocumentPosition.textDocument.uri);
-	return nodeMcuCompletionHandler(document, textDocumentPosition);
+	return nodeMcuCompletionHandler(connection.console, document, textDocumentPosition);
+});
+
+connection.onSignatureHelp(textDocumentPosition => { 
+	let document = documents.get(textDocumentPosition.textDocument.uri);
+	return nodeMcuSignatureHelpHandler(connection.console, document, textDocumentPosition);
 });
 
 // This handler resolve additional information for the item selected in
 // the completion list.
-connection.onCompletionResolve((item: CompletionItem): CompletionItem => {
-	return item;
-});
+//connection.onCompletionResolve((item: CompletionItem): CompletionItem => {
+//	return item;
+//});
 
 /*
 connection.onDidOpenTextDocument((params) => {

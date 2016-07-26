@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "sourceMap": true,
+    "declaration": true,
+    "removeComments": true,
+    "noImplicitAny": true,
+    "rootDir": "./src"
+  },
+//   "filesGlob": [
+//     "typings/index.d.ts",
+//     "src/**/*.ts"
+//   ],
+//   "files": [
+//     "src\\a\\a.spec.ts",
+//     "src\\greeter\\greeter.spec.ts",
+//     "src\\greeter\\greeter.ts",
+//     "src\\italiangreeter\\italiangreeter.spec.ts",
+//     "src\\italiangreeter\\italiangreeter.ts",
+//     "typings\\index.d.ts"
+//   ]
+    "exclude": [
+        "node_modules",
+        "typings/globals"
+    ]
+}
