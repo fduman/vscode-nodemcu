@@ -1,0 +1,5 @@
+{
+  "globalDevDependencies": {
+    "serialport": "registry:dt/serialport#0.0.0+20160627065358"
+  }
+}
