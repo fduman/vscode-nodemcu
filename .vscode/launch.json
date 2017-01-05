@@ -7,11 +7,11 @@
             "request": "launch",
             "runtimeExecutable": "${execPath}",
             "args": [
-                "--extensionDevelopmentPath=${workspaceRoot}"
+                "--extensionDevelopmentPath=${workspaceRoot}/client"
             ],
             "stopOnEntry": false,
             "sourceMaps": true,
-            "outDir": "${workspaceRoot}/out",
+            "outFiles": ["${workspaceRoot}/client/out/**/*.*"],
             "preLaunchTask": "npm"
         }
     ]

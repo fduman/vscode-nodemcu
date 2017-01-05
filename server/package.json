@@ -9,11 +9,11 @@
 		"node": "*"
 	},
 	"dependencies": {
-		"vscode-languageserver": "^2.2.0",
+		"vscode-languageserver": "2.2.0",
 		"luaparse": "0.2.1"
 	},
 	"devDependencies": {
-		"typescript": "^1.8.9"
+		"typescript": "1.8.9"
 	},
 	"scripts": {
 		"compile": "installServerIntoExtension ../client ./package.json ./tsconfig.json && tsc -p .",

@@ -10,28 +10,71 @@ import {
 	Thread
 } from 'vscode-debugadapter';
 
+
 import {DebugProtocol} from 'vscode-debugprotocol';
 import {readFileSync} from 'fs';
-import {basename} from 'path';
 
 import * as nodemcu from "./nodeMcuCommunication";
+import { TaskServer } from './debugger/TaskServer';
 
+import { 
+    DebuggerTask 
+} from "./debugger/DebuggerTask";
+
+
+/**
+ * 
+ */
 export interface LaunchRequestArguments extends DebugProtocol.LaunchRequestArguments {
-	/** An absolute path to the program to debug. */
-	program: string;
+	port: string;
+	baud: number;
 }
 
+
+/**
+ * 
+ */
+class SendToMcuTask implements DebuggerTask {
+
+	private _terminal: nodemcu.NodeMcuCommunicator;
+	private _message: string;
+
+	constructor(terminal: nodemcu.NodeMcuCommunicator, message: string) {
+		this._terminal = terminal;
+		this._message = message;
+	}
+
+    /**
+     * 
+     */
+    public run(callback: () => void): void {
+		this._terminal.write(this._message + "\r\n");
+        process.nextTick(callback);
+	}
+    
+    /**
+     * 
+     */
+    public dispose() : void {
+	}
+}
+
+
+/**
+ * 
+ */
 class NodeMcuDebugSession extends DebugSession {
 
 	// we don't support multiple threads, so we can use a hardcoded ID for the default thread
 	private static THREAD_ID = 1;
 
-	// the contents (= lines) of the one and only file
-	private _sourceLines = new Array<string>();
-
 	private _terminal: nodemcu.NodeMcuCommunicator;
 
 	private _portclosing: boolean = false;
+	
+	private _taskServer: TaskServer;
+
+	private _inputBuffer: string;
 
 	/**
 	 * Creates a new debug adapter that is used for one debug session.
@@ -43,6 +86,8 @@ class NodeMcuDebugSession extends DebugSession {
 		// this debugger uses zero-based lines and columns
 		this.setDebuggerLinesStartAt1(false);
 		this.setDebuggerColumnsStartAt1(false);
+
+		this._inputBuffer = "";
 	}
 
 
@@ -69,51 +114,93 @@ class NodeMcuDebugSession extends DebugSession {
 		this.sendResponse(response);
 	}
 
+
+	/**
+	 * 
+	 */
 	protected launchRequest(response: DebugProtocol.LaunchResponse, args: LaunchRequestArguments): void {
 
-		let sourceCode = readFileSync(args.program).toString();
-		this._sourceLines = sourceCode.split('\n');
-
-		nodemcu.NodeMcuCommunicator.detectPort((error: string, ports: nodemcu.PortInformation[]) => {
+		nodemcu.NodeMcuCommunicator.detectPort(args.port, (error: string, ports: nodemcu.PortInformation[]) => {
 
 			if (ports.length > 0) {
 				this.sendEvent(new OutputEvent(`NodeMCU device found on: ` + ports[0].comName + "\n"));
-				this._terminal = new nodemcu.NodeMcuCommunicator(ports[0].comName);
 
-				this._terminal.registerOnPortDisconnect((error: string) => {
-					if (!this._portclosing) {
-						this.sendErrorResponse(response, 0, "NodeMCU device disconnected");
-						this.shutdown();
-					}
-				});
+				this._terminal = this.createTerminal(response, ports[0].comName, args.baud);
+				this._taskServer = new TaskServer(this, this._terminal);
 
-				this._terminal.registerOnError((error: string) => {
-					this.sendErrorResponse(response, 0, "An error occured on NodeMCU device communication: " + error);
-				});
-
-				this._terminal.registerOnDataReceived((data: string) => {
-					this.sendEvent(new OutputEvent(data + "\n"));
-				});
-
-				this._terminal.registerOnPortOpen(() => {
-					this.sendEvent(new OutputEvent("Port opened\n"));
-					this.sendEvent(new OutputEvent("The file is uploading to NodeMCU device\n"));
-					this._terminal.uploadFile(this._sourceLines, basename(args.program));
-				});
-
-				this._terminal.open();
 			} else {
 
-				this.sendErrorResponse(response, 0, "NodeMCU device not found");
+				this.sendErrorResponse(response, 0, "NodeMCU device not found.");
 				this.shutdown();
 			}
 		});
 	}
 
+
+	/**
+	 * 
+	 */
+	private createTerminal(response: DebugProtocol.LaunchResponse, comName: string, baud: number): nodemcu.NodeMcuCommunicator {
+		let terminal = new nodemcu.NodeMcuCommunicator(comName, baud);
+
+		terminal.registerOnPortDisconnect((error: string) => {
+			if (!this._portclosing) {
+				this.sendErrorResponse(response, 0, "NodeMCU device disconnected!");
+				this.shutdown();
+			} else {
+				this.sendEvent(new OutputEvent("NodeMCU device disconnected.\n"));
+			}
+		});
+
+		terminal.registerOnError((error: string) => {
+			this.sendErrorResponse(response, 0, "An error occured on NodeMCU device communication: " + error);
+			this.shutdown();
+		});
+
+		terminal.registerOnDataReceived((data: string) => {
+			this._inputBuffer += data;
+			
+			if (this._inputBuffer.indexOf("\n") >= 0) {
+				let out = this._inputBuffer.split(/\r?\n/);
+
+				for (let i: number = 0; i < out.length - 1; i++) {
+					this.sendEvent(new OutputEvent(out[i]));
+				}
+
+				this._inputBuffer = out[out.length-1];
+			}
+			else if (this._inputBuffer.length > 120) {
+				this.sendEvent(new OutputEvent(this._inputBuffer));
+				this._inputBuffer = "";
+			}
+		});
+
+		terminal.registerOnPortOpen(() => {
+			this.sendEvent(new OutputEvent("NodeMCU device connected ...\n"));					
+			this.sendResponse(response);
+		});
+
+		terminal.open();
+		return terminal;
+	}
+
+
+	/**
+	 * 
+	 */
 	protected disconnectRequest(response: DebugProtocol.DisconnectResponse, args: DebugProtocol.DisconnectArguments): void {
+		
 		if (this._terminal != null) {
+		
 			this._portclosing = true;
 			this._terminal.close();
+
+			this._terminal = null;			
+		}
+
+		if (this._taskServer != null) {
+			this._taskServer.dispose();
+			this._taskServer = null;
 		}
 
 		super.disconnectRequest(response, args);
@@ -125,7 +212,7 @@ class NodeMcuDebugSession extends DebugSession {
 			variablesReference: 0
 		};
 
-		this._terminal.write(args.expression);
+		this._taskServer.queueTask(new SendToMcuTask(this._terminal, args.expression));
 
 		this.sendResponse(response);
 	}
