@@ -19,7 +19,7 @@ import { NodeMcuCommands } from './features/nodeMcuCommands';
  * 
  */
 function showNodeMCUToolbox() {
-	vscode.commands.executeCommand('vscode.previewHtml', DeviceInfoContentProvider.uri, 'NodeMCU Toolbox').then((success) => {}, (reason) => {
+	vscode.commands.executeCommand('vscode.previewHtml', DeviceInfoContentProvider.uri, vscode.ViewColumn.One, 'NodeMCU Toolbox').then((success) => {}, (reason) => {
 		vscode.window.showErrorMessage(reason);
 	});
 }
