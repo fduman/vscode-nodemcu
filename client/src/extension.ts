@@ -12,14 +12,14 @@ import { LanguageClient, LanguageClientOptions, SettingMonitor, ServerOptions, T
 import { ComPortAutoCompleteProvider } from './features/ComPortAutoCompleteProvider';
 import { DeviceInfoContentProvider } from './features/DeviceInfoContentProvider';
 
-import { NodeMcuCommands } from './features/NodeMcuCommands';
+import { NodeMcuCommands } from './features/nodeMcuCommands';
 
 
 /**
  * 
  */
 function showNodeMCUToolbox() {
-	vscode.commands.executeCommand('vscode.previewHtml', DeviceInfoContentProvider.uri, vscode.ViewColumn.Two, 'NodeMCU Toolbox').then((success) => {}, (reason) => {
+	vscode.commands.executeCommand('vscode.previewHtml', DeviceInfoContentProvider.uri, 'NodeMCU Toolbox').then((success) => {}, (reason) => {
 		vscode.window.showErrorMessage(reason);
 	});
 }
