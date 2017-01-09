@@ -192,8 +192,8 @@
         position: absolute;
         top: 0;
         left: 0;
-        background-color: Menu;
-        color: MenuText;
+        background-color: rgb(255,255,255);
+        color: rgb(30,30,30);
         border: 1px solid rgb(220,220,220);
         -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, .425);
                 box-shadow: 0 3px 5px rgba(0, 0, 0, .425);
@@ -202,10 +202,14 @@
         display: table;
     }
 
+    .menu a {
+        color: rgb(30,30,30);
+    }
+
     .menu_item {
         cursor: default;
         display: table-row;
-        color: MenuText;
+        color: rgb(30,30,30);
     }
 
     .menu_item .icon-fill {
@@ -225,12 +229,10 @@
         vertical-align: middle;
         padding-top: 0.3em;
         padding-bottom: 0.3em;
-        color: MenuText;
     }
 
     *[class*="menu_selectable"]:hover { 
-        background-color: Highlight;
-        color: HighlightText;
+        background-color: rgb(200,200,200);
     }
 
     .menu_title {
