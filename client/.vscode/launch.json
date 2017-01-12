@@ -14,6 +14,16 @@
 			"preLaunchTask": "npm"
 		},
 		{
+			"type": "node",
+			"request": "launch",
+			"name": "Run Server",
+			"cwd": "${workspaceRoot}",
+			"program": "${workspaceRoot}/src/debug.ts",
+			"args": [ "--server=4711" ],
+			"sourceMaps": true,
+			"outFiles": [ "${workspaceRoot}/out/src/*.js" ]
+		},
+		{
 			"name": "Launch Tests",
 			"type": "extensionHost",
 			"request": "launch",

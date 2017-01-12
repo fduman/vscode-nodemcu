@@ -1,0 +1,259 @@
+    body {
+        padding: 1em;
+    }
+
+    .icon {
+        width: 1.3em;
+        height: 1.4em;
+        vertical-align: middle;
+        overflow: hidden;
+    }
+
+    .fileSize {
+        text-align: right;
+        padding-left: 2em;
+    }
+
+    .fileName {
+        padding-left: 0.5em;        
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    table {
+        margin-left: 1em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        border-collapse: collapse;
+    }
+
+    tr {
+        cursor: default;
+    }
+
+    .vscode-light table tbody tr td {
+        color: rgb(88, 110, 117); 
+    }
+
+    .vscode-light table tbody tr td:nth-of-type(3) {
+        color: rgb(88, 110, 117); 
+        opacity: 0.7;
+    }
+
+    .vscode-light .icon-fill {
+        fill: rgb(88, 110, 117); 
+    }
+
+
+    .vscode-dark table tbody tr td {
+        color: #CCCCCC; 
+    }
+
+    .vscode-dark table tbody tr td:nth-of-type(3) {
+        color: #CCCCCC; 
+        opacity: 0.7;
+    }
+
+    .vscode-dark .icon-fill {
+        fill: #CCCCCC; 
+    }
+
+    .hover {
+        background-color:rgba(127,127,127,0.3);
+    }
+
+    .vscode-high-contrast table tbody tr td {
+        color: #FFFFFF; 
+    }
+
+    .vscode-high-contrast table tbody tr td:nth-of-type(3) {
+        color: #FFFFFF; 
+        opacity: 0.7;
+    }
+
+    .vscode-high-contrast .icon-fill {
+        fill: #FFFFFF; 
+    }
+
+    .vscode-light .fileToolsTip {
+        background: rgb(230,230,230);
+        color: rgb(88, 110, 117); 
+    }
+
+    .vscode-dark .fileToolsTip {
+        background: rgb(70,70,70);
+        color: #CCCCCC; 
+    }
+
+    .vscode-high-contrast .fileToolsTip {
+        background: rgb(255,255,255);
+        color: rgb(0,0,0);
+    }
+
+    tip-arrow {
+        opacity: 0;
+    }
+
+    .infoMessage { 
+        margin-left: 1em; 
+    }
+
+    button, html input[type="button"], input[type="reset"], input[type="submit"] {
+        -webkit-appearance: button;
+        cursor: pointer;
+    }    
+
+    .btn {
+        display: inline-block;
+        padding: 0.1em 1em;
+        margin-bottom: 0;
+        font-weight: normal;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+
+    .vscode-dark .btn {
+        background-color: rgb(80,80,80);
+        color: rgb(250,250,250);
+    }
+
+    .vscode-light .btn {
+        background-color: rgb(150,150,150);
+        color: rgb(240,240,240);
+    }
+
+    .vscode-high-contrast .btn {
+        background-color: rgb(240,240,240);
+        color: black;
+    }
+
+    .vscode-dark a {
+        color: rgb(250,250,250);
+    }
+
+    .vscode-light a {
+        color: rgb(240,240,240);
+    }
+
+    .vscode-high-contrast a {
+        color: black;
+    }
+
+    .btn:focus,
+    .btn:active:focus,
+    .btn.active:focus,
+    .btn.focus,
+    .btn:active.focus,
+    .btn.active.focus {
+        outline: 5px auto -webkit-focus-ring-color;
+        outline-offset: -2px;
+    }
+
+    .btn:hover,
+    .btn:focus,
+    .btn.focus {
+        text-decoration: none;
+    }
+
+    .btn:active,
+    .btn.active {
+        background-image: none;
+        outline: 0;
+        -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+                box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+    }
+
+    .btn.disabled,
+    .btn[disabled],
+    fieldset[disabled] .btn {
+        cursor: not-allowed;
+        filter: alpha(opacity=65);
+        -webkit-box-shadow: none;
+                box-shadow: none;
+        opacity: .65;
+    }
+
+    .menu {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgb(255,255,255);
+        color: rgb(30,30,30);
+        border: 1px solid rgb(220,220,220);
+        -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, .425);
+                box-shadow: 0 3px 5px rgba(0, 0, 0, .425);
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+        display: table;
+    }
+
+    .menu a {
+        color: rgb(30,30,30);
+    }
+
+    .menu_item {
+        cursor: default;
+        display: table-row;
+        color: rgb(30,30,30);
+    }
+
+    .menu_item .icon-fill {
+        fill: rgb(0, 0, 0);
+    }
+
+    .menu_icon {
+        display: table-cell;
+        padding-left: 0.7em;
+        padding-right: 0.6em;
+        vertical-align: middle;
+    }
+
+    .menu_text {
+        display: table-cell;
+        padding-right: 1em;
+        vertical-align: middle;
+        padding-top: 0.3em;
+        padding-bottom: 0.3em;
+    }
+
+    *[class*="menu_selectable"]:hover { 
+        background-color: rgb(200,200,200);
+    }
+
+    .menu_title {
+        display: table-cell;        
+        font-weight: bold; 
+        padding-right: 1em;
+        vertical-align: middle;
+    }
+
+    .menu_separator_line {
+        display:inline-block;
+        vertical-align: middle;
+        height: 1px;
+        width: 100%;
+        background-color: rgb(220,220,220);
+        margin-right: 0.5em;
+    }
+
+    .menu_separator {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+

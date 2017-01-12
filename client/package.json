@@ -1,85 +1,169 @@
 {
-    "name": "vscode-nodemcu",
-    "displayName": "NodeMcu",
-    "description": "Supports NodeMCU upload over serial port, debug console, lua error detection and lua optimization, intellisense",
-    "author": {
-        "name": "Furkan Duman",
-        "email": "furkan0duman@gmail.com"
-    },
-    "license": "MIT",
-    "version": "1.0.5",
-    "publisher": "fduman",
-    "icon": "esp8266.gif",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/fduman/vscode-nodemcu"
-    },
-    "bugs": {
-        "url": "https://github.com/fduman/vscode-nodemcu/issues"
-    },
-    "engines": {
-        "vscode": "^0.10.10"
-    },
-    "keywords": [
-        "nodemcu",
-        "lua",
-        "debuggers"
+  "name": "vscode-nodemcu",
+  "displayName": "NodeMcu",
+  "description": "Supports NodeMCU upload over serial port, debug console, lua error detection and lua optimization, intellisense",
+  "author": {
+    "name": "Furkan Duman",
+    "email": "furkan0duman@gmail.com"
+  },
+  "license": "MIT",
+  "version": "1.0.5",
+  "publisher": "fduman",
+  "icon": "esp8266.gif",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fduman/vscode-nodemcu"
+  },
+  "bugs": {
+    "url": "https://github.com/fduman/vscode-nodemcu/issues"
+  },
+  "engines": {
+    "vscode": "^0.10.10"
+  },
+  "keywords": [
+    "nodemcu",
+    "lua",
+    "debuggers"
+  ],
+  "categories": [
+    "Languages",
+    "Debuggers",
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:lua",
+    "onLanguage:json",
+    "onCommand:nodemcu.showToolbox"
+  ],
+  "main": "./out/src/extension",
+  "contributes": {
+    "commands": [{
+        "command": "nodemcu.uploadFile",
+        "title": "NodeMCU: Upload File",
+        "category": "nodemcu",
+        "icon": {
+            "light": "media/uploadFile.svg",
+            "dark": "media/uploadFile_dark.svg"
+        }
+      }, {
+        "command": "nodemcu.uploadProject",
+        "title": "NodeMCU: Upload Project", 
+        "category": "nodemcu",
+        "icon":{
+          "light": "media/uploadProject.svg",
+          "dark": "media/uploadProject_dark.svg"
+        }
+      }, {
+        "command": "nodemcu.showToolbox",
+        "title": "NodeMCU: Show Toolbox",
+        "category": "nodemcu",
+        "icon": {
+          "dark": "media/NodeMCU_logo_small_dark.png",
+          "light": "media/NodeMCU_logo_small.png"
+        }
+      }      
     ],
-    "categories": [
-        "Languages",
-        "Debuggers",
-        "Other"
-    ],
-    "activationEvents": [
-        "onLanguage:lua"
-    ],
-    "main": "./out/src/extension",
-    "contributes": {
-        "debuggers": [
-			{
-				"type": "nodemcu",
-				"label": "NodeMCU Debug",
-
-				"program": "./out/src/debug.js",
-				"runtime": "node",
-
-				"configurationAttributes": {
-					"launch": {
-						"required": [ "program" ],
-						"properties": {
-							"program": {
-								"type": "string",
-								"description": "Absolute path to a text file.",
-								"default": "${file}"
-							}
-						}
-					}
-				},
-
-				"initialConfigurations": [
-					{
-						"name": "NodeMCU-Debug",
-						"type": "nodemcu",
-						"request": "launch",
-						"program": "${file}"
-					}
-				]
-			}
-		]
-    },
-    "scripts": {
-        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install"
-    },
-    "devDependencies": {
-        "typescript": "^1.8.9",
-        "vscode": "^0.11.0"
-    },
-    "dependencies": {
-        "vscode-languageclient": "^2.2.1",
-        "serialport": "4.0.1",
-        "vscode-debugprotocol": "^1.11.0",
-		"vscode-debugadapter": "^1.11.0"
-    }
+    "menus": {
+        "editor/title": [{
+            "when": "inDebugMode",
+            "command": "nodemcu.showToolbox",
+            "group": "navigation"
+          }
+        ],
+        "editor/context": [{ 
+            "when": "inDebugMode",
+            "command": "nodemcu.uploadFile",
+            "group": "nodemcu"
+          }, {
+            "when": "inDebugMode",
+            "command": "nodemcu.uploadProject",
+            "group": "nodemcu"
+          }
+        ],
+        "explorer/context": [{ 
+            "when": "inDebugMode",
+            "command": "nodemcu.uploadFile",
+            "group": "nodemcu"
+          }, {
+            "when": "inDebugMode",
+            "command": "nodemcu.uploadProject",
+            "group": "nodemcu"
+          }
+        ]
+    },    
+    "debuggers": [
+     {
+        "type": "nodemcu",
+        "label": "NodeMCU Debug",
+        "program": "./out/src/debug.js",
+        "runtime": "node",
+        "configurationAttributes": {
+          "attach": {
+            "required": [
+              "port",
+              "baud"
+            ],
+            "properties": {
+              "port": {
+                "type": "string",
+                "description": "COMmunication port name."
+              },
+              "baud": {
+                "enum": [ 9600, 19200, 38400, 57600, 74880, 115200, 230400, 460800, 921600 ],
+                "description": "Connection baud rate.",
+                "default": 115200
+              }
+            }            
+          },
+          "launch": {
+            "required": [
+              "port",
+              "baud"
+            ],
+            "properties": {
+              "port": {
+                "type": "string",
+                "description": "COMmunication port name."
+              },
+              "baud": {
+                "enum": [ 9600, 19200, 38400, 57600, 74880, 115200, 230400, 460800, 921600 ],
+                "description": "Connection baud rate.",
+                "default": 115200
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "name": "NodeMCU-Debug",
+            "type": "nodemcu",
+            "request": "launch",
+            "port": "COM1",
+            "baud": 115200
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install && node patch-ngcontext.js && node patch-serialport.js"    
+  },
+  "devDependencies": {
+    "typescript": "^1.8.9",
+    "vscode": "^0.11.0"
+  },
+  "dependencies": {
+    "vscode-languageclient": "2.2.1",
+    "serialport": "^4.0.6",
+    "file-url": "^2.0.0",
+    "vscode-debugprotocol": "^1.11.0",
+    "vscode-debugadapter": "^1.11.0",
+    "angular": "^1.6.0",
+    "angular-tooltips": "^1.1.8",
+    "ng-contextmenu": "^0.7.5"
+  },
+  "cpu" : [ "x64", "ia32" ],
+  "os" : [ "darwin", "linux", "win32" ]
 }

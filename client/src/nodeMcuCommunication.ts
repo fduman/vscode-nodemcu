@@ -10,28 +10,50 @@ export interface PortInformation {
     productId: string
 }
 
+/**
+ * 
+ */
 export class NodeMcuCommunicator {
     private _port: serialport.SerialPort;
-    private _baudrate = 9600; 
+    private _recvCallback: (data: string) => void;
 
-    constructor(portname: string) {
+    /**
+     * 
+     */
+    constructor(portname: string, baud: number) {
+
         let options = {
             autoOpen: false,
-            baudRate: this._baudrate,
-            parser: serialport.parsers.readline("\r\n")
+            baudRate: baud
         };
 
         this._port = new serialport.SerialPort(portname, options);
+
+        this._port.on("data", (data) => {
+
+            if (this._recvCallback) { 
+                this._recvCallback(data.toString('utf8'));
+            }
+        });
+        
     }
 
-    public static detectPort(callback: (error: string, ports: PortInformation[]) => void): void {
+
+    /**
+     * 
+     */
+    public static detectPort(cfgPort: string, callback: (error: string, ports: PortInformation[]) => void): void {
         serialport.list((error: string, ports: serialport.portConfig[]) => {
             if (error != null) {
                 callback(error, null);
             }
-            else {
+            else {                
                 let filteredPorts = ports.filter((port: serialport.portConfig) => {
-                    return port.pnpId.includes("VID_1A86") || port.pnpId.includes("VID_10C4");
+                    if (cfgPort == null || cfgPort == "auto") {
+                        return port.pnpId.includes("VID_1A86") || port.pnpId.includes("VID_10C4");
+                    }
+
+                    return (port.comName == cfgPort);
                 });
 
                 callback(error, filteredPorts);
@@ -53,7 +75,6 @@ export class NodeMcuCommunicator {
 
     public registerOnPortOpen(callback: () => void): void {
         this._port.on("open", () => {
-            this.write("uart.setup(0,9600,8,0,1,1)");
             callback();
         });
     }
@@ -62,30 +83,19 @@ export class NodeMcuCommunicator {
         this._port.on("error", callback);
     }
 
-    public registerOnDataReceived(callback: (data: string) => void): void {
-        this._port.on("data", callback);
+    public registerOnDataReceived(callback: (data: string) => void): (data: string) => void {
+        let oldCB = this._recvCallback;
+        this._recvCallback = callback;
+
+        return oldCB;
     }
 
     public write(data: string) {
         if (this._port.isOpen) {
-            this._port.write(data + "\r\n", () => {
+            this._port.write(data, () => {
                 this._port.drain();
             });
         }
-    }
-
-    public uploadFile(data: string[], remoteFilename: string) {
-        this.write('file.remove("' + remoteFilename + '");');
-        this.write('file.open("' + remoteFilename + '", "w+");');
-        this.write("w=file.writeline;");
-
-        data.forEach(line => {
-            this.write("w([==[" + line + "]==]);");
-        });
-
-        this.write('file.close();');
-
-        this.write("dofile('" + remoteFilename + "')");
     }
 
     public close(): void {

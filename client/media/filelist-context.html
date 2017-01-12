@@ -1,0 +1,38 @@
+<div class="menu">
+    <div class="menu_item">
+        <div class="menu_icon">
+            <svg class='icon icon-fill'><use xlink:href='{{toIconLink(file)}}'></use></svg>
+        </div>
+        <div class="menu_title">{{name}}</div>
+    </div>
+    <div class="menu_item">
+        <div class='menu_separator'><div class='menu_separator_line'/></div>
+        <div class='menu_separator'><div class='menu_separator_line'/></div>
+    </div>
+    <a href='{{toCommandUri("runFile", file)}}' ng-show="isExecutable(file)" class="menu_item menu_selectable">
+        <div class="menu_icon">
+            <svg class='icon' style="fill: blue"><use xlink:href="{{mediaUrl + '/nodemcu_icons.svg#play'}}"></use></svg>
+        </div>
+        <div class="menu_text">Run</div>
+    </a>
+    <a href='{{toCommandUri("compileFile", file)}}' ng-show="isLuaFile(file)" class="menu_item menu_selectable">
+        <div class="menu_icon">
+            <svg class='icon' style="fill: green"><use xlink:href="{{mediaUrl + '/nodemcu_icons.svg#gear'}}"></use></svg>
+        </div>
+        <div class="menu_text">Compile</div>
+    </a>
+    <a href='{{toCommandUri("viewFile", file)}}' class="menu_item menu_selectable">
+        <div class="menu_icon"></div>
+        <div class="menu_text">View</div>
+    </a>
+    <a href='{{toCommandUri("renameFile", file)}}' class="menu_item menu_selectable">
+        <div class="menu_icon"></div>
+        <div class="menu_text">Rename</div>
+    </a>
+    <a href='{{toCommandUri("deleteFile", file)}}' class="menu_item menu_selectable">
+        <div class="menu_icon">
+            <svg class='icon' style="fill: red"><use xlink:href="{{mediaUrl + '/nodemcu_icons.svg#cross'}}"></use></svg>            
+        </div>
+        <div class="menu_text">Delete</div>
+    </a>
+</div>
